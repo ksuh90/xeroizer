@@ -133,6 +133,7 @@ module Xeroizer
         when 400
           raise Xeroizer::BadResponse.new(description)
         when 401
+          XmlErrorResponse.new(response, request_body, url).raise_error! if description.nil?
           raise OAuth::TokenExpired.new(description) if description.include?("TokenExpired")
           raise OAuth::TokenInvalid.new(description)
         when 403
